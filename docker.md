@@ -1,5 +1,4 @@
 # Docker
-
 Brief notes about Docker.
 
 ## Images
@@ -18,7 +17,7 @@ python                alpine          d4d6be1b90ec   4 months ago   45.1MB
 hello-world           latest          d1165f221234   10 months ago   13.3kB
 python                3.6.8-stretch   48c06762acf0   2 years ago    924MB
 ```
-If want to delete an image because it is not used anymore:
+If you want to delete an image because it is not used anymore:
 ```shell
 user@debian:~/cheatsheet$ docker rmi hello-world:latest 
 Untagged: hello-world:latest
@@ -30,17 +29,17 @@ Deleted: sha256:f22b99068db93900abe17f7f5e09ec775c2826ecfe9db961fea68293744144bd
 
 ## Processes
 
-Create a new Docker container:
+Create a new container:
 ```shell
 user@debian:~/cheatsheet$ docker create <CONTAINER_NAME> <image_name>
 ```
 
-To start a Docker container:
+Start a container:
 ```shell
 user@debian:~/cheatsheet$ docker start <CONTAINER_NAME>
 ```
 
-To attach a Docker container:
+Attach a container:
 ```shell
 user@debian:~/cheatsheet$ docker attach <CONTAINER_NAME>
 ```
@@ -50,37 +49,28 @@ You can use *--attach* with run to execute both actions:
 user@debian:~/cheatsheet$ docker run --attach <CONTAINER_NAME>
 ```
 
-To stop a Docker container:
+Stop a container:
 ```shell
 user@debian:~/cheatsheet$ docker stop <CONTAINER_NAME>
 ```
 
-To remove a Docker container:
+Remove a container:
 ```shell
 user@debian:~/cheatsheet$ docker rm <CONTAINER_NAME>
 ```
 
-To view Docker containers running:
+List Docker containers running:
 ```shell
 user@debian:~/cheatsheet$ docker ps
-
+CONTAINER ID   IMAGE                                 COMMAND                  CREATED        STATUS         PORTS                                NAMES
+1e2c0835904e   gcr.io/k8s-minikube/kicbase:v0.0.39   "/usr/local/bin/entr…"   2 months ago   Up 9 seconds   127.0.0.1:32772->22/tcp, 127.0.0.1:32771->2376/tcp, 127.0.0.1:32770->5000/tcp, 127.0.0.1:32769->8443/tcp, 127.0.0.1:32768->32443/tcp   minikube-rmoyano-stx-env
 ```
-To view all the Docker containers (Running/not running):
+
+List all the Docker containers (Running/Not running):
 ```shell
 user@debian:~/cheatsheet$ docker ps -a
-
-
-5. You can list all the branches created by using:
-```shell
-user@debian:~/gitnotes$ git branch -a
-  feature1
-* feature2
-  main
-  remotes/origin/HEAD -> origin/main
-  remotes/origin/main
-```
-6. After you completed a feature, it's a good practice to delete that branch:
-```shell
-user@debian:~/gitnotes$ git branch -d feature2
-Deleted branch feature2 (was f0d44a7).
+CONTAINER ID   IMAGE                                 COMMAND                  CREATED        STATUS                     PORTS                       NAMES
+1e2c0835904e   gcr.io/k8s-minikube/kicbase:v0.0.39   "/usr/local/bin/entr…"   2 months ago   Up About a minute          127.0.0.1:32772->22/tcp, 127.0.0.1:32771->2376/tcp, 127.0.0.1:32770->5000/tcp, 127.0.0.1:32769->8443/tcp, 127.0.0.1:32768->32443/tcp   minikube-rmoyano-stx-env
+1b5e235d82f3   ubuntu                                "bash"                   2 months ago   Exited (0) 2 months ago                                 sleepy_morse
+8bd07cec6b82   hello-world                           "/hello"                 4 months ago   Exited (0) 2 minutes ago                                naughty_wiles
 ```
