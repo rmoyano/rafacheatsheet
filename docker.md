@@ -2,14 +2,29 @@
 Brief notes about Docker.
 
 ## Images
-You can download images from DockerHub or any other <reponame>:
+You can download images from DockerHub or any other public registry:
+
+Download the latest image:
+```shell
+rmoyano@thinkpad:~/code/rafacheatsheet$ docker pull redis
+Using default tag: latest
+latest: Pulling from library/redis
+faef57eae888: Pull complete 
+bb595d48e52d: Pull complete 
+d479b54c3bb2: Pull complete 
+4bd00b511c2c: Pull complete 
+286fb62a80b5: Pull complete 
+520d4480047f: Pull complete 
+Digest: sha256:1008c73f08e9f913868e2fa2e843212b62ea5bf3c66435d87bc7a6207bc0f1b4
+Status: Downloaded newer image for redis:latest
+docker.io/library/redis:latest
+```
 
 List images available in your system:
 ```shell
 user@debian:~/cheatsheet$ docker images
 REPOSITORY            TAG             IMAGE ID       CREATED        SIZE
 ubuntu                latest          ba6acccedd29   2 months ago   72.8MB
-dockercoins_worker    latest          49c678e97107   4 months ago   54MB
 dockercoins_webui     latest          df6098242320   4 months ago   218MB
 redis                 latest          ddcca4b8a6f0   4 months ago   105MB
 nginx                 latest          dd34e67e3371   4 months ago   133MB
@@ -17,7 +32,8 @@ python                alpine          d4d6be1b90ec   4 months ago   45.1MB
 hello-world           latest          d1165f221234   10 months ago   13.3kB
 python                3.6.8-stretch   48c06762acf0   2 years ago    924MB
 ```
-If you want to delete an image because it is not used anymore:
+
+If want to delete an image because it is not used anymore:
 ```shell
 user@debian:~/cheatsheet$ docker rmi hello-world:latest 
 Untagged: hello-world:latest
@@ -74,3 +90,7 @@ CONTAINER ID   IMAGE                                 COMMAND                  CR
 1b5e235d82f3   ubuntu                                "bash"                   2 months ago   Exited (0) 2 months ago                                 sleepy_morse
 8bd07cec6b82   hello-world                           "/hello"                 4 months ago   Exited (0) 2 minutes ago                                naughty_wiles
 ```
+=======
+
+rmoyano@thinkpad:~$ docker rmi hello-world:latest 
+Error response from daemon: conflict: unable to remove repository reference "hello-world:latest" (must force) - container 8bd07cec6b82 is using its referenced image feb5d9fea6a5
