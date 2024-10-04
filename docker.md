@@ -51,7 +51,7 @@ hello-world           latest          d1165f221234   10 months ago   13.3kB
 python                3.6.8-stretch   48c06762acf0   2 years ago    924MB
 ```
 
-If want to delete an image because it is not used anymore:
+If you want to delete an image because it is not used anymore:
 ```shell
 user@notebook:~/code$ docker rmi hello-world:latest 
 Untagged: hello-world:latest
@@ -59,7 +59,7 @@ Untagged: hello-world@sha256:7d91b69e04a9029b99f3585aaaccae2baa80bcf318f4a5d2165
 Deleted: sha256:d1165f2212346b2bab48cb01c1e39ee8ad1be46b87873d9ca7a4e434980a7726
 Deleted: sha256:f22b99068db93900abe17f7f5e09ec775c2826ecfe9db961fea68293744144bd
 ```
-
+----
 
 ## Processes
 
