@@ -3,7 +3,7 @@ Brief notes about [*Docker Compose*](https://docs.docker.com/compose/).
 
 ## Management
 
-Create and start all the services from your configuration file.
+Create and start all the services from your configuration file:
 ```shell
 user@notebook:~/code$ docker compose up
 WARN[0000] /home/rmoyano/docker/docker-compose.yml: `version` is obsolete 
@@ -15,7 +15,7 @@ Attaching to test_postgres
 test_postgres  | The files belonging to this database system will be owned by user "postgres".
 test_postgres  | This user must also own the server process.
 ```
-Create and start all the services from your configuration file, using detached mode.
+Create and start all the services from your configuration file, using detached mode:
 ```shell
 user@notebook:~/code$ docker compose up -d
 [+] Building 2.2s (11/11) FINISHED                                docker:default
@@ -49,7 +49,7 @@ flask_app    storeapi-app   "python -m flask run…"   app       6 seconds ago  
 test-mongo   mongo:5.0      "docker-entrypoint.s…"   mongo     6 seconds ago   Up 5 seconds   27017/tcp
 ```
 
-Create and start all the services from your configuration file.
+Create and start all the services from your configuration file:
 ```shell
 user@notebook:~/code$ docker compose logs
 rmoyano@thinkpad:~/docker$ docker compose logs
@@ -95,13 +95,89 @@ WARN[0000] /home/rmoyano/docker/docker-compose.yml: `version` is obsolete
 ----
 
 ## Compose file
+Using Docker command to run Postgresql database with env vars, volumes and networks.
 
-Create a new container:
 ```shell
-user@notebook:~/code$ docker create <CONTAINER_NAME> <image_name>
+rmoyano@thinkpad:~/docker$ docker run -d --name test_postgres \
+  --network test-net \
+  -p 5432:5432 \
+  -e POSTGRES_USER=rafa \
+  -e POSTGRES_PASSWORD=admin \
+  -e POSTGRES_DB=test_docker \
+  -v postgres_data:/var/lib/postgresql/data \
+  postgres:14-alpine
+b24bd54f9ce9cde6210220733b3bfc2b03884fdb297a903f0c9764b224cc6163
+docker: Error response from daemon: failed to set up container networking: network test-net not found
+
+rmoyano@thinkpad:~/docker$ docker network list
+NETWORK ID     NAME      DRIVER    SCOPE
+a82898c025e0   bridge    bridge    local
+9807d7124409   host      host      local
+48c9e74aa4da   none      null      local
+rmoyano@thinkpad:~/docker$ docker network create test-net
+6a4830f05936993c6bb9870adcda1e9bcd5ea37d8640a2fc89b8c9e56e2054ef
+rmoyano@thinkpad:~/docker$ docker network list
+NETWORK ID     NAME       DRIVER    SCOPE
+a82898c025e0   bridge     bridge    local
+9807d7124409   host       host      local
+48c9e74aa4da   none       null      local
+6a4830f05936   test-net   bridge    local
+
+$ docker run -d --name test_postgres \
+  --network test-net \
+  -p 5432:5432 \
+  -e POSTGRES_USER=rafa \
+  -e POSTGRES_PASSWORD=admin \
+  -e POSTGRES_DB=test_docker \
+  -v postgres_data:/var/lib/postgresql/data \
+  postgres:14-alpine
+
+rmoyano@thinkpad:~/docker$ docker network rm test-net 
+test-net
+```
+
+Yaml file using Postgresql as example listing networks and volumes:
+```yaml
+services:
+  test_postgres:
+    image: postgres:14-alpine
+    container_name: test_postgres
+    environment:
+      POSTGRES_USER: rafa
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: test_docker
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - postgres_net
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  postgres_net:
 ```
 
 Start a container:
 ```shell
-user@notebook:~/code$ docker start <CONTAINER_NAME>
+user@notebook:~/code$ docker-compose up
+Creating test_postgres ... done
+Attaching to test_postgres
+test_postgres    | The files belonging to this database system will be owned by user "postgres".
+test_postgres    | This user must also own the server process.
+test_postgres    | 
+test_postgres    | The database cluster will be initialized with locale "en_US.utf8".
+test_postgres    | The default database encoding has accordingly been set to "UTF8".
+test_postgres    | The default text search configuration will be set to "english".
+test_postgres    | 
+test_postgres    | Data page checksums are disabled.
+test_postgres    | 
+test_postgres    | fixing permissions on existing directory /var/lib/postgresql/data ... ok
+
+test_postgres    | 2025-05-28 15:42:04.551 UTC [1] LOG:  database system is ready to accept connections
+^CGracefully stopping... (press Ctrl+C again to force)
+Stopping test_postgres ... done
 ```
