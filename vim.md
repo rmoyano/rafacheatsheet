@@ -10,8 +10,8 @@ Brief notes about VI/VIM.
 |2| Delete character | x |
 |3| Delete from current character to beginning of the line | d0 |
 |4| Delete from current character to end of the line | d$ |
-|5| Delete line | d |
-|6| Delete 3 lines | 3d |
+|5| Delete line | dd |
+|6| Delete 3 lines below current| 3dd |
 |7| Delete from current line to the top of the file | dgg |
 |8| Delete from current line to the end of the file | dG |
 |9| Replace character | r |
